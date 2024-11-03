@@ -232,7 +232,7 @@ const UpdateCodigo = async (req, res) => {
             
             case "No Ganaste":
               const resultado1 = ActualizaPremio(Idpremio, Iduser, FechaActual);
-              if(resultado1 == "Codigo registrado"){
+              if(resultado1 == "Codigo registrado exitosamente"){
                 
                 //registro el intento de validación del codigo
                 const resultado3 = RegistroIntentosCodigo(Iduser, CodigoPremio,  Premio, FechaActual);
@@ -247,7 +247,7 @@ const UpdateCodigo = async (req, res) => {
 
             case "Ganaste 1.000.000":
               const resultado2 = ActualizaPremio(Idpremio, Iduser, FechaActual);
-              if(resultado2 == "Codigo registrado"){
+              if(resultado2 == "Codigo registrado exitosamente"){
 
                   //registro el intento de validación del codigo
                   const resultado3 = RegistroIntentosCodigo(Iduser, CodigoPremio,  Premio, FechaActual);
@@ -262,7 +262,7 @@ const UpdateCodigo = async (req, res) => {
             
             case "Ganaste 10.000":
               const resultado3 = ActualizaPremio(Idpremio, Iduser);
-              if(resultado3 == "Codigo registrado"){
+              if(resultado3 == "Codigo registrado exitosamente"){
 
                   //registro el intento de validación del codigo
                   const resultado3 = RegistroIntentosCodigo(Iduser, CodigoPremio,  Premio, FechaActual);
@@ -277,7 +277,7 @@ const UpdateCodigo = async (req, res) => {
             
             case "Ganaste 50.000":
               const resultado4 = ActualizaPremio(Idpremio, Iduser);
-              if(resultado4 == "Codigo registrado"){
+              if(resultado4 == "Codigo registrado exitosamente"){
 
                   //registro el intento de validación del codigo
                   const resultado3 = RegistroIntentosCodigo(Iduser, CodigoPremio,  Premio, FechaActual);
