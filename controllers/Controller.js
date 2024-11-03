@@ -154,46 +154,38 @@ const RegistroCodigo = async (req, res) => {
 };
 
 //------------- metodo  para registrar la auditoria de los codigos --------------------- TERMINDO, validado
-async function RegistroIntentosCodigo(req, res, IDUSER, CODIGO, PREMIO, FECHA) {
-  try {
-    // Validar el IDUSER
-    if (!ObjectId.isValid(IDUSER)) {
-      return res.status(400).json({ status: "error", message: "ID de usuario no válido." });
-    }
+async function RegistroIntentosCodigo (IDUSER, CODIGO, PREMIO, FECHA, res, req){
+  
+  try{
 
+    //Busco la información en user info con el IDCOD  que pertenece al usuario
     var ID_USER = new ObjectId(IDUSER);
-    console.log("Buscando usuario con ID:", ID_USER); // Debug: Verificar IDUSER
-    const DatosUsuario = await pool.db('Parcial2').collection('user_info').findOne({ user_id: ID_USER });
-
+    const DatosUsuario = await pool.db('Parcial2').collection('user_info').findOne({user_id: ID_USER });
     if (DatosUsuario) {
-      try {
-        const RegistroIntentos = await pool.db('Parcial2').collection('intentos').insertOne({
-          nombre: DatosUsuario.nombre,
-          cedula: DatosUsuario.cedula,
-          telefono: DatosUsuario.celular,
-          codigo: CODIGO,
-          premio: PREMIO,
-          fecha: FECHA,
-        });
 
+      try {
+
+        const RegistroIntentos = await pool.db('Parcial2').collection('intentos').insertOne({nombre: DatosUsuario.nombre,  cedula: DatosUsuario.cedula, telefono: DatosUsuario.celular, codigo: CODIGO, premio: PREMIO, fecha: FECHA });
         if (RegistroIntentos.acknowledged) {
           console.log("status: Registro de auditoria del codigo exitoso.");
-          return res.json({ status: "success", message: "Auditoria registrada exitosamente" });
+          return "Auditoria registrada exitosamente";
         } else {
           console.log("status: Error creando el registro de auditoria");
-          return res.status(500).json({ status: "error", message: "Auditoria no registrada" });
+          return "error Auditoria no registrada";
         }
+        
       } catch (error) {
         console.error('Error registrando información de auditoria del codigo: ', error);
-        return res.status(500).json({ status: "error", message: "Error registrando la auditoría" });
       }
+      return  "Intento de validacion de premio registrado";
     } else {
-      console.log("Error actualizando registro del codigo al usuario (intentos).");
-      return res.status(404).json({ status: "error", message: "Usuario no encontrado" });
+      console.log("Error actualicanzo registro del codigo al usuario (intentos).");
+      return "Error actualicanzo registro del codigo.";
     }
+
   } catch (error) {
     console.error('Error buscando información del usuario:', error);
-    return res.status(500).json({ status: "error", message: "Ha ocurrido un error con la base de datos." });
+    res.status(500).json({ status: "Error", message: "ha ocurrido un error con la base de datos." });
   }
 }
 
