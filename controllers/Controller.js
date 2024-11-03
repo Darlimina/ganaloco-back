@@ -156,8 +156,13 @@ const RegistroCodigo = async (req, res) => {
 //------------- metodo  para registrar la auditoria de los codigos --------------------- TERMINDO, validado
 async function RegistroIntentosCodigo(req, res, IDUSER, CODIGO, PREMIO, FECHA) {
   try {
-    // Busco la información en user info con el IDCOD que pertenece al usuario
+    // Validar el IDUSER
+    if (!ObjectId.isValid(IDUSER)) {
+      return res.status(400).json({ status: "error", message: "ID de usuario no válido." });
+    }
+
     var ID_USER = new ObjectId(IDUSER);
+    console.log("Buscando usuario con ID:", ID_USER); // Debug: Verificar IDUSER
     const DatosUsuario = await pool.db('Parcial2').collection('user_info').findOne({ user_id: ID_USER });
 
     if (DatosUsuario) {
