@@ -154,37 +154,41 @@ const RegistroCodigo = async (req, res) => {
 };
 
 //------------- metodo  para registrar la auditoria de los codigos --------------------- TERMINDO, validado
-async function RegistroIntentosCodigo (IDUSER, CODIGO, PREMIO, FECHA, res, req){
-  try{
-
-    //Busco la información en user info con el IDCOD  que pertenece al usuario
+async function RegistroIntentosCodigo(req, res, IDUSER, CODIGO, PREMIO, FECHA) {
+  try {
+    // Busco la información en user info con el IDCOD que pertenece al usuario
     var ID_USER = new ObjectId(IDUSER);
-    const DatosUsuario = await pool.db('Parcial2').collection('user_info').findOne({user_id: ID_USER });
+    const DatosUsuario = await pool.db('Parcial2').collection('user_info').findOne({ user_id: ID_USER });
+
     if (DatosUsuario) {
-
       try {
+        const RegistroIntentos = await pool.db('Parcial2').collection('intentos').insertOne({
+          nombre: DatosUsuario.nombre,
+          cedula: DatosUsuario.cedula,
+          telefono: DatosUsuario.celular,
+          codigo: CODIGO,
+          premio: PREMIO,
+          fecha: FECHA,
+        });
 
-        const RegistroIntentos = await pool.db('Parcial2').collection('intentos').insertOne({nombre: DatosUsuario.nombre,  cedula: DatosUsuario.cedula, telefono: DatosUsuario.celular, codigo: CODIGO, premio: PREMIO, fecha: FECHA });
         if (RegistroIntentos.acknowledged) {
           console.log("status: Registro de auditoria del codigo exitoso.");
-          return "Auditoria registrada exitosamente";
+          return res.json({ status: "success", message: "Auditoria registrada exitosamente" });
         } else {
           console.log("status: Error creando el registro de auditoria");
-          return "error Auditoria no registrada";
+          return res.status(500).json({ status: "error", message: "Auditoria no registrada" });
         }
-        
       } catch (error) {
         console.error('Error registrando información de auditoria del codigo: ', error);
+        return res.status(500).json({ status: "error", message: "Error registrando la auditoría" });
       }
-      return  "Intento de validacion de premio registrado";
     } else {
-      console.log("Error actualicanzo registro del codigo al usuario (intentos).");
-      return "Error actualicanzo registro del codigo.";
+      console.log("Error actualizando registro del codigo al usuario (intentos).");
+      return res.status(404).json({ status: "error", message: "Usuario no encontrado" });
     }
-
   } catch (error) {
     console.error('Error buscando información del usuario:', error);
-    res.status(500).json({ status: "Error", message: "ha ocurrido un error con la base de datos." });
+    return res.status(500).json({ status: "error", message: "Ha ocurrido un error con la base de datos." });
   }
 }
 
