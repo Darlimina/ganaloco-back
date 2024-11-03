@@ -241,8 +241,8 @@ const UpdateCodigo = async (req, res) => {
                 }else{
                   res.json({ status: " Con el código ingresado NO GANASTE ningún premio. "});
                 }
-
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+                console.log("Darli mina")
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 1."}); }
               break;
 
             case "Ganaste 1.000.000":
@@ -257,7 +257,7 @@ const UpdateCodigo = async (req, res) => {
                     res.json({ status: "Felicidades! HAS GANADO 1.000.000 de pesos."});
                   }
 
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 2."}); }
               break;
             
             case "Ganaste 10.000":
@@ -272,7 +272,7 @@ const UpdateCodigo = async (req, res) => {
                     res.json({ status: "Felicidades! HAS GANADO 10.000 mil pesos."});
                   }
 
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 3."}); }
               break;
             
             case "Ganaste 50.000":
@@ -287,7 +287,7 @@ const UpdateCodigo = async (req, res) => {
                     res.json({ status: "Felicidades! HAS GANADO 50.000 mil pesos."});
                   }
                   
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 4."}); }
               break;
           
             default: "" //si no existe un premio cofigurado para un documento(registro) devuelve: 
