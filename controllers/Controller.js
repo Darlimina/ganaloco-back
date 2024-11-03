@@ -133,7 +133,7 @@ const NewAdmin = async (req, res) => {
   }
 };
 
-//------------- metodo  para registrar Codigo --------------------- TEMP
+//------------- metodo  para registrar Codigo --------------------- TEMP//
 const RegistroCodigo = async (req, res) => {
   const datos = req.body;
   console.log("DATOS enviados de codigo: ", datos);
@@ -195,9 +195,9 @@ function ActualizaPremio (IDCOD, IDUSER, FECHA){
     const registroCodigo =  pool.db('Parcial2').collection('codigos').updateOne({ _id: IDCOD}, { $set: {estado: IDUSER, fecha: FECHA} } );
     if (registroCodigo) {
       console.log("Codigo registrado al usuario.");
-      return  "Codigo registrado";
+      return  "Codigo registrado exitosamente";
     } else {
-      console.log("Error actualicanzo registro del codigo al usuario.");
+      console.log("Error actualicanzo registro del codigo al usuario.");//
       return "Error actualicanzo registro del codigo.";
     }
 
@@ -241,8 +241,7 @@ const UpdateCodigo = async (req, res) => {
                 }else{
                   res.json({ status: " Con el código ingresado NO GANASTE ningún premio. "});
                 }
-
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 1."}); }
               break;
 
             case "Ganaste 1.000.000":
@@ -257,7 +256,7 @@ const UpdateCodigo = async (req, res) => {
                     res.json({ status: "Felicidades! HAS GANADO 1.000.000 de pesos."});
                   }
 
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 2."}); }
               break;
             
             case "Ganaste 10.000":
@@ -272,7 +271,7 @@ const UpdateCodigo = async (req, res) => {
                     res.json({ status: "Felicidades! HAS GANADO 10.000 mil pesos."});
                   }
 
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 3."}); }
               break;
             
             case "Ganaste 50.000":
@@ -287,7 +286,7 @@ const UpdateCodigo = async (req, res) => {
                     res.json({ status: "Felicidades! HAS GANADO 50.000 mil pesos."});
                   }
                   
-              }else{ res.json({ status: "Error actualizando registro del codigo ingresado."}); }
+              }else{ res.json({ status: "Error actualizando registro del codigo ingresado 4."}); }
               break;
           
             default: "" //si no existe un premio cofigurado para un documento(registro) devuelve: 
@@ -323,7 +322,7 @@ const InfoUser = async (req, res) => {
       res.json( DatosUser );
     }else{
       console.log('No hay datos registrados para el usuario.');
-      res.json({ status: "No hay datos registrados para el usuario." });
+      res.json({ status: "No hay datos registrados para este usuario." });
     }
 
   } catch (error) {
@@ -342,7 +341,7 @@ const InfoTablaUser = async (req, res) => {
     if (!Object.keys(DatosPremio).length == 0 ) {
       res.json( DatosPremio );
     }else{
-      res.json([{ status: "No hay codigos registrados para el usuario", _id: "", codigo: "", premio: "", estado: "", fecha: "" }] );
+      res.json([{ status: "No hay registros de codigo para el usuario", _id: "", codigo: "", premio: "", estado: "", fecha: "" }] );
     }
 
   } catch (error) {
@@ -355,7 +354,7 @@ const InfoTablaUser = async (req, res) => {
 const InfoTablaAdmin1 = async (req, res) => {
   try {
     // Buscar en la colección 'codigos' los documentos que tengan el estado  con el id del user  autenticado
-    const DatosPremio = await pool.db('Parcial2').collection('intentos').find({premio: "Ganaste 1.000.000"}).toArray();
+    const DatosPremio = await pool.db('Parcial2').collection('intentos').find().toArray();
     
     if (!Object.keys(DatosPremio).length == 0 ) {
       res.json( DatosPremio );
@@ -364,7 +363,7 @@ const InfoTablaAdmin1 = async (req, res) => {
     }
 
   } catch (error) {
-    console.error('Error al consultar la base de datos:', error);
+    console.error('Error al consultarse con la base de datos:', error);
     res.status(500).json({ status: "Error", message: "Internal Server Error" });
   }
 };
@@ -405,7 +404,7 @@ const InfoTablaAdmin3 = async (req, res) => {
   }
 };
 
-//---------------metodo para buscar la info del admin --------------------- en curso
+//---------------metodo para buscar la info del admin -------------------- en curso
 const InfoTablaAdmin4 = async (req, res) => {
   try {
     // Buscar en la colección 'codigos' los documentos que tengan el estado  con el id del user  autenticado
