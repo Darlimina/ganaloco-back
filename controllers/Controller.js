@@ -178,7 +178,7 @@ async function RegistroIntentosCodigo (IDUSER, CODIGO, PREMIO, FECHA, res, req){
       }
       return  "Intento de validacion de premio registrado";
     } else {
-      console.log("Error actualicanzo registro del codigo al usuario.");
+      console.log("Error actualicanzo registro del codigo al usuario (intentos).");
       return "Error actualicanzo registro del codigo.";
     }
 
@@ -189,21 +189,22 @@ async function RegistroIntentosCodigo (IDUSER, CODIGO, PREMIO, FECHA, res, req){
 }
 
 //------------- metodo  para actualizar los premios --------------------- TERMINADO, Validado
-function ActualizaPremio (IDCOD, IDUSER, FECHA){
-  try{
-    //Actualizo el codigo utilizado con los datos de fecha
-    const registroCodigo =  pool.db('Parcial2').collection('codigos').updateOne({ _id: IDCOD}, { $set: {estado: IDUSER, fecha: FECHA} } );
-    if (registroCodigo) {
-      console.log("Codigo registrado al usuario.");
-      return  "Codigo registrado exitosamente";
+async function ActualizaPremio(IDCOD, IDUSER, FECHA) {
+  try {
+    const resultado = await pool.db('Parcial2').collection('codigos').updateOne(
+      { _id: IDCOD },
+      { $set: { estado: IDUSER, fecha: FECHA } }
+    );
+    if (resultado.modifiedCount === 1) {
+      console.log("Código registrado al usuario.");
+      return "Código registrado exitosamente";
     } else {
-      console.log("Error actualicanzo registro del codigo al usuario.");//
-      return "Error actualicanzo registro del codigo.";
+      console.log("Error actualizando registro del código al usuario.");
+      return "Error actualizando registro del código.";
     }
-
   } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ status: "Error", message: "ha ocurrido un error con la base de datos." });
+    console.error('Error actualizando el código:', error);
+    throw new Error("Ha ocurrido un error con la base de datos.");
   }
 }
 
